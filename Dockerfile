@@ -3,7 +3,7 @@
 #
 
 # Pull base image.
-FROM linxlad/docker-nginx
+FROM linxlad/nginx
 
 MAINTAINER Nathan Daly <nathand@openobjects.com>
 
