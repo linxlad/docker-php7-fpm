@@ -24,14 +24,14 @@ RUN apt-get -y --force-yes install php7.0-fpm php7.0-dev php7.0-mcrypt php7.0-mb
     php7.0-gd php7.0-bz2 php7.0-xml php7.0-common php7.0-mysql php-pear
 
 # Install xdebug
-RUN pecl install xdebug
-
-RUN echo "zend_extension=xdebug.so" >> /etc/php/7.0/fpm/conf.d/40-xdebug.ini
-RUN echo "xdebug.remote_enable=1" >> /etc/php/7.0/fpm/conf.d/40-xdebug.ini
-RUN echo "xdebug.remote_host=localhost" >> /etc/php/7.0/fpm/conf.d/40-xdebug.ini
-RUN echo "xdebug.remote_port=9108" >> /etc/php/7.0/fpm/conf.d/40-xdebug.ini
-RUN echo "xdebug.remote_handler=\"dbgp\"" >> /etc/php/7.0/fpm/conf.d/40-xdebug.ini
-RUN echo "xdebug.remote_connect_back=1" >> /etc/php/7.0/fpm/conf.d/40-xdebug.ini
+# RUN pecl install xdebug
+#
+# RUN echo "zend_extension=xdebug.so" >> /etc/php/7.0/fpm/conf.d/40-xdebug.ini
+# RUN echo "xdebug.remote_enable=1" >> /etc/php/7.0/fpm/conf.d/40-xdebug.ini
+# RUN echo "xdebug.remote_host=localhost" >> /etc/php/7.0/fpm/conf.d/40-xdebug.ini
+# RUN echo "xdebug.remote_port=9108" >> /etc/php/7.0/fpm/conf.d/40-xdebug.ini
+# RUN echo "xdebug.remote_handler=\"dbgp\"" >> /etc/php/7.0/fpm/conf.d/40-xdebug.ini
+# RUN echo "xdebug.remote_connect_back=1" >> /etc/php/7.0/fpm/conf.d/40-xdebug.ini
 
 RUN sed -i '/daemonize /c \
 daemonize = no' /etc/php/7.0/fpm/php-fpm.conf
