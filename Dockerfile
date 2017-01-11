@@ -21,7 +21,7 @@ RUN apt-get update && \
 
 # Install PHP
 RUN apt-get -y --force-yes install php7.0-fpm php7.0-dev php7.0-mcrypt php7.0-mbstring \
-    php7.0-gd php7.0-bz2 php7.0-xml php7.0-common php7.0-mysql php-pear
+    php7.0-gd php7.0-bz2 php7.0-xml php7.0-common php7.0-mysql php7.0-redis php-pear
 
 # Install xdebug
 # RUN pecl install xdebug
