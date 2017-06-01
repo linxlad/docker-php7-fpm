@@ -21,7 +21,7 @@ RUN apt-get update && \
 
 # Install PHP
 RUN apt-get -y --force-yes install php7.0-cli php7.0-fpm php7.0-dev php7.0-mcrypt php7.0-mbstring \
-    php7.0-bz2 php7.0-xml php7.0-common php7.0-mysql php7.0-intl php-pear
+    php7.0-bz2 php7.0-xml php7.0-common php7.0-mysql php7.0-intl php7.0-xdebug
 
 # Phalcon
 RUN curl -s "https://packagecloud.io/install/repositories/phalcon/stable/script.deb.sh" | bash && \
@@ -29,16 +29,6 @@ RUN curl -s "https://packagecloud.io/install/repositories/phalcon/stable/script.
     apt-get -y --force-yes install php7.0-phalcon
 
 RUN echo "extension=phalcon.so" >> /etc/php/7.0/fpm/conf.d/40-phalcon.ini
-
-# Install xdebug
-#RUN pecl install xdebug
-#
-#RUN echo "zend_extension=xdebug.so" >> /etc/php/7.0/fpm/conf.d/40-xdebug.ini \
-#RUN echo "xdebug.remote_enable=1" >> /etc/php/7.0/fpm/conf.d/40-xdebug.ini \
-#RUN echo "xdebug.remote_host=localhost" >> /etc/php/7.0/fpm/conf.d/40-xdebug.ini \
-#RUN echo "xdebug.remote_port=9108" >> /etc/php/7.0/fpm/conf.d/40-xdebug.ini \
-#RUN echo "xdebug.remote_handler=\"dbgp\"" >> /etc/php/7.0/fpm/conf.d/40-xdebug.ini \
-#RUN echo "xdebug.remote_connect_back=1" >> /etc/php/7.0/fpm/conf.d/40-xdebug.ini
 
 RUN sed -i '/daemonize /c \
     daemonize = no' /etc/php/7.0/fpm/php-fpm.conf
@@ -68,7 +58,13 @@ RUN sed -i '/^listen /c \
     listen = 9000' /etc/php/7.0/fpm/pool.d/www.conf
 
 RUN sed -i 's/^listen.allowed_clients/;listen.allowed_clients/' /etc/php/7.0/fpm/pool.d/www.conf
+
+RUN sed -i "s/xdebug\.remote_host\=.*/xdebug\.remote_host\=$XDEBUG_HOST/g" /etc/php/7.0/mods-available/xdebug.ini
 RUN echo "#!/bin/bash\n/etc/init.d/php7.0-fpm start && nginx" >> /run.sh
+RUN chmod a+x /run.sh
+
+COPY xdebug.ini /etc/php/7.0/mods-available/xdebug.ini
+COPY run.sh /run.sh
 RUN chmod a+x /run.sh
 
 EXPOSE 9000
